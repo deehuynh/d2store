@@ -18,6 +18,19 @@ function useTopPr (type) {
     setPhone(data);
   }
 
+  /*if (phone !== null) {
+    let tmp;
+    for (let i = 0; i < phone.length - 1; i++) {
+      for (let j = i + 1; j <= phone.length; j++) {
+        if (phone[i] < phone[j]) {
+          tmp = phone[j];
+          phone[j] = phone[i];
+          phone[i] = tmp;
+        }
+      }
+    }
+  }*/
+
   return phone;
 }
 

@@ -10,6 +10,8 @@ import {
     StarFill, ThreeDots, Pencil, Trash, FileLock, Globe, PencilSquare, GraphUp,
     EmojiSmile, InfoCircle
 } from 'react-bootstrap-icons';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 function ProductsList (props) {
     const [modalShow, setModalShow] = useState(false);
@@ -52,6 +54,10 @@ function ProductsList (props) {
 
     function handleChangeState (e) {
         setPrState({...prState, [e.target.name]: e.target.value});
+    }
+
+    function getContent (data) {
+        setPrState({...prState, content: data});
     }
 
     useEffect(()=>{
@@ -102,6 +108,9 @@ function ProductsList (props) {
         case 'accessories':
             type = 'Accessories'
             break;
+        case 'help':
+            type = 'Help'
+            break;
         default:
             type = 'Smartphone'
             break;
@@ -117,6 +126,10 @@ function ProductsList (props) {
         setModalShow(false);
     }
 
+    function removeAllRating (key) {
+        FireDb.ref(`${primaryKey}/${key}`).child('rating').remove().then(alert('Complete!'));
+    }
+
     const data = [];
     let i = 0;
     if (state !== null) {
@@ -127,7 +140,7 @@ function ProductsList (props) {
                 <Card className="cp-card-sm">
                     <Card.Header style={{backgroundColor: 'white', color: '#3399FF', cursor: 'pointer'}}>
                     <span>#{i}</span>
-                    <div style={{display: 'inline-block', float: 'right'}}>4.5 <StarFill style={{color: 'gold', marginBottom: '6px'}} /></div>
+                    {/* <div style={{display: 'inline-block', float: 'right'}}>4.5 <StarFill style={{color: 'gold', marginBottom: '6px'}} /></div> */}
                     </Card.Header>
                     <div onClick={()=>{handleUpdate(item)}} className="cp-card-sm-img-p">
                     <Card.Img className={classImg + classImg2} style={{
@@ -137,8 +150,9 @@ function ProductsList (props) {
                     </div>
                     <Card.Body onClick={()=>{handleUpdate(item)}}>
                     <Card.Title className="cp-card-sm-title" >{item.name}</Card.Title>
+                    <Card.Title className="cp-card-sm-title" >{item.title}</Card.Title>
                     <Card.Text style={{color: '#dd0000', fontWeight: 'bold'}}>
-                        ${item.price}
+                        {item.price !== undefined ? '$' + item.price : ''}
                     </Card.Text>
                     </Card.Body>
                     <Card.Footer style={{background: 'white', borderTop: 'none', paddingTop: '0'}}>
@@ -184,6 +198,8 @@ function ProductsList (props) {
                 handleUpdateSubmit={handleUpdateSubmit}
                 type={type}
                 listOfAcsrType={listOfAcsrType}
+                removeAllRating={removeAllRating}
+                getContent={getContent}
             />
         </Row>
     );
@@ -224,13 +240,14 @@ function DetailModal (props) {
                                 state={props.state} brands={props.brands}
                                 handleChangeState={props.handleChangeState}
                                 type={props.type} listOfAcsrType={props.listOfAcsrType}
+                                getContent={props.getContent}
                             />
                         </Tab.Pane>
                         <Tab.Pane eventKey="second">
                             ---
                         </Tab.Pane>
                         <Tab.Pane eventKey="third">
-                            ---
+                            <Button variant='danger' onClick={()=>{props.removeAllRating(props.state.key)}}>Remove all rating</Button>
                         </Tab.Pane>
                     </Tab.Content>
                     </Col>
@@ -290,6 +307,9 @@ function DetailPr (props) {
     if (type === 'Accessories') {
         detail = <AcsrDetailPr state={state} options2={options2} handleChangeState={props.handleChangeState} />
     }
+    if (type === 'Help') {
+        detail = null;
+    }
 
     return (
         <div>
@@ -307,21 +327,48 @@ function DetailPr (props) {
                 </Form.Group>
             </Col>
             <Col xs='12' md='7'>
-                <Form.Group>
+                {type !== 'Help' ? <Form.Group>
                     <Form.Control
                         type='text' name='name' value={state.name}
                         placeholder="Product's name"
                         onChange={(e)=>{props.handleChangeState(e)}}
                     />
-                </Form.Group>
+                </Form.Group> : ''}
 
+                {type === 'Help' ? <>
                 <Form.Group>
+                    <Form.Control
+                        type='text' name='title' value={state.title}
+                        placeholder="Title"
+                        onChange={(e)=>{props.handleChangeState(e)}}
+                    />
+                </Form.Group>
+                <CKEditor
+                    name='content'
+                    editor={ ClassicEditor }
+                    data={state.content}
+                    onReady={ editor => {
+                        console.log( 'Editor is ready to use!', editor );
+                    } }
+                    onChange={ ( event, editor ) => {
+                        const data = editor.getData();
+                        props.getContent(data);
+                    } }
+                    onBlur={ ( event, editor ) => {
+                        console.log( 'Blur.', editor );
+                    } }
+                    onFocus={ ( event, editor ) => {
+                        console.log( 'Focus.', editor );
+                    } }
+                /></> : ''}
+
+                {type !== 'Help' ? <Form.Group>
                     <Form.Control
                         type='text' name='price' value={state.price}
                         placeholder="Price"
                         onChange={(e)=>{props.handleChangeState(e)}}
                     />
-                </Form.Group>
+                </Form.Group> : ''}
 
             </Col>
         </Row>
@@ -423,6 +470,45 @@ function SmDetailPr (props) {
                     value={state.pin}
                     onChange={(e)=>{props.handleChangeState(e)}}
                 />
+            </Form.Group>
+
+            <Form.Group>
+                <Form.Control
+                  as='textarea' name='box' placeholder="what's in the box?"
+                  value={state.box}
+                  onChange={(e)=>{props.handleChangeState(e)}}
+                />
+            </Form.Group>
+
+
+            <Form.Group>
+                <Form.Label>Detailed pictures of the product</Form.Label>
+            </Form.Group>
+
+            <Form.Group>
+                <Form.Control type='text' name='image1' placeholder='Enter link image...' value={state.image1} onChange={(e) => {props.handleChangeState(e)}} />
+                </Form.Group>
+
+                <Form.Group>
+                <Form.Control type='text' name='image2' placeholder='Enter link image...' value={state.image2} onChange={(e) => {props.handleChangeState(e)}} />
+                </Form.Group>
+
+                <Form.Group>
+                <Form.Control type='text' name='image3' placeholder='Enter link image...' value={state.image3} onChange={(e) => {props.handleChangeState(e)}} />
+                </Form.Group>
+
+                <Form.Group>
+                <div className="pr-pictures">
+                    <img src={state.image1} alt="Not found image link" />
+                </div>
+
+                <div className="pr-pictures">
+                    <img src={state.image2} alt="Not found image link" />
+                </div>
+
+                <div className="pr-pictures">
+                    <img src={state.image3} alt="Not found image link" />
+                </div>
             </Form.Group>
         </Col></Row>
     );
@@ -602,6 +688,24 @@ function AcsrDetailPr (props) {
                     style={{height: '200px'}}
                     type='text' as='textarea' name='description' placeholder='Description...'
                     value={state.description}
+                    onChange={(e)=>{props.handleChangeState(e)}}
+                />
+            </Form.Group>
+
+        </Col></Row>
+    );
+}
+
+function HelpDetail (props) {
+    const state = props.state;
+    return (
+        <Row><Col xs='12'>
+
+            <Form.Group>
+                <Form.Control
+                    style={{height: '200px'}}
+                    type='text' as='textarea' name='content' placeholder='Content...'
+                    value={state.content}
                     onChange={(e)=>{props.handleChangeState(e)}}
                 />
             </Form.Group>

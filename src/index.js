@@ -1,14 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './Style/index.css';
+import './Style/products.css';
 import Admin from './Components/CP/Admin';
 import Site from './Components/Layout';
 import * as serviceWorker from './serviceWorker';
 import {BrowserRouter as Router, Link, Route, Switch, NavLink} from 'react-router-dom';
+import ScrollToTop from './Components/ScrollToTop';
 
 ReactDOM.render(
   <React.StrictMode>
     <Router>
+      <ScrollToTop />
       <Switch>
         
         <Route path='/admin'>

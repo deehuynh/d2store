@@ -3,21 +3,26 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^25.0.0",
+    "@ckeditor/ckeditor5-react": "^3.0.1",
     "@testing-library/jest-dom": "^5.11.8",
     "@testing-library/react": "^11.2.3",
     "@testing-library/user-event": "^12.6.0",
     "bootstrap": "^4.5.3",
     "firebase": "^8.2.2",
+    "moment": "^2.29.1",
     "react": "^17.0.1",
     "react-bootstrap": "^1.4.3",
     "react-bootstrap-icons": "^1.2.3",
     "react-dom": "^17.0.1",
     "react-helmet": "^6.1.0",
     "react-helmet-async": "^1.0.7",
+    "react-html-parser": "^2.0.2",
     "react-responsive": "^8.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
     "react-slideshow-image": "^3.4.3",
+    "react-star-rating-component": "^1.4.1",
     "web-vitals": "^0.2.4"
   },
   "scripts": {
@@ -45,6 +50,7 @@
     ]
   },
   "devDependencies": {
+    "@ckeditor/ckeditor5-alignment": "^25.0.0",
     "eslint-plugin-react-hooks": "^4.2.0"
   }
 }

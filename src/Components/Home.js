@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import useFormatUrl from '../Hooks/useFormatUrl';
 import {useMediaQuery} from 'react-responsive';
 import HContentBar from './HContentBar';
 import firstStore from '../images/store.png';
@@ -8,10 +9,16 @@ import Bn2 from '../images/bn5.jpg';
 import Bn3 from '../images/bn4.jpg';
 import {Slide} from 'react-slideshow-image';
 import 'react-slideshow-image/dist/styles.css';
-import {Link} from 'react-router-dom';
 import fireDb from '../firebase';
 import useTopPr from '../Hooks/useTopPr';
 import useTopPrL from '../Hooks/useTopPrL';
+import DetailPr from './DetailPr';
+import useRating from '../Hooks/useRating';
+import {
+  BrowserRouter as Router, Link, Route, Switch, NavLink,
+  useParams, useRouteMatch
+} from 'react-router-dom';
+import useQuery from '../Hooks/useQuery';
 
 function HighlightProductFrame (props) {
 
@@ -19,8 +26,9 @@ function HighlightProductFrame (props) {
     props.products && props.products.forEach((product, index) => {
       column.push(
         <HighlightProduct
-          key={index} name={product.name} price={product.price}
-          image={product.image} type={props.type}
+          key={index} type={props.type}
+          product={product} detail={props.detail}
+          baseUrl={props.baseUrl}
          />
       );
     });
@@ -29,7 +37,9 @@ function HighlightProductFrame (props) {
       <div className="highlight-product-frame">
         {column}
         <div className='clear-fix'></div>
-        <div className='see-more'>See more</div>
+        {
+          props.hide === 'hide' ? '' : <Link to={`/${props.category}`} className='see-more'>See more</Link>
+        }
       </div>
     );
 
@@ -41,21 +51,50 @@ function HighlightProduct (props) {
       attribute = {height: '290px'};
     }
 
+    if (props.detail === true) {
+      attribute = {height: '500px'}
+    }
+
+    let formatUrl = useFormatUrl(props.product.name);
+    const {review, star, overallReview, width, overallRating} = useRating(props.baseUrl,props.product.key);
+
     return (
-      <Link to='/dien-thoai/name-product' className="highlight-products" style={attribute}>
+      <Link
+        to={`${props.baseUrl}/${formatUrl}?prid=${props.product.key}`} className="highlight-products"
+        style={attribute}
+      >
         
         <div className="product-image">
-          <img src={props.image} />
+          <img src={props.product.image} />
         </div>
+
         <div className="product-info">
-          <p className="product-name">{props.name}</p>
-          <p className="product-price">${props.price}</p>
+          <p className="product-name">{props.product.name}</p>
+          <p className="product-price">${props.product.price}</p>
         </div>
         <div className='product-rate'>
           <i className="fas fa-star"></i>
-          <span className='product-rate-point'> 4.5</span>
-          <span className='product-rate-evaluation'> (103 evaluations)</span>
+          <span className='product-rate-point'> {overallRating}</span>
+          <span className='product-rate-evaluation'> ({overallReview} reviews)</span>
         </div>
+
+        {
+          props.detail === true ? 
+          <>
+            <div className="ram-memory">
+            <span>RAM {props.product.ram}</span>
+            <span>{props.product.internalMemory}</span>
+          </div>
+          <div className='product-info-detail'>
+            <p>Screen {props.product.screen}</p>
+            <p>Processor {props.product.cpu}</p>
+            <p>Rear camera {props.product.rearCamera}</p>
+            <p>Front camera {props.product.frontCamera}</p>
+            <p>{props.product.pin} battery</p>
+          </div>
+          </> :
+          ''
+        }
       </Link>
     );
 }
@@ -111,46 +150,64 @@ class HomeBanner extends React.Component {
 }
 
 function HomeL () {
+
+  let {path, url} = useRouteMatch();
+  let query = useQuery();
   
   const phone = useTopPrL('smartphone');
   const laptop = useTopPrL('laptop');
   const tablet = useTopPrL('tablet');
   
   return (
-    <>
-      <HomeBanner />
-      <AddressBanner />
-      <div className='clear-fix'></div>
+    <Switch>
+      <Route exact path={path}>
+        <HomeBanner />
+        <AddressBanner />
+        <div className='clear-fix'></div>
 
-      <HContentBar title="The top smartphones rated" />
-      <HighlightProductFrame products={phone} />
-      <HContentBar title="The top laptop rated" />
-      <HighlightProductFrame products={laptop} type={1} />
-      <HContentBar title="The top tablet rated" />
-      <HighlightProductFrame products={tablet} />
-    </>
+        <HContentBar title="The top smartphones rated" category='smartphone' />
+        <HighlightProductFrame products={phone} category='smartphone' baseUrl='smartphone' />
+        <HContentBar title="The top laptop rated" category='laptop' />
+        <HighlightProductFrame products={laptop} type={1} category='laptop' baseUrl='laptop' />
+        <HContentBar title="The top tablet rated" category='tablet' />
+        <HighlightProductFrame products={tablet} category='tablet' baseUrl='tablet' />
+      </Route>
+
+      <Route>
+        <DetailPr baseUrl='smartphone' prid={query.get("prid")} />
+      </Route>
+    </Switch>
   );
 }
 
 function HomeM () {
+
+  let {path, url} = useRouteMatch();
+  let query = useQuery();
   
   const phone = useTopPr('smartphone');
   const laptop = useTopPr('laptop');
   const tablet = useTopPr('tablet');
   
   return (
-    <>
-      <HomeBanner />
-      <AddressBanner />
-      <div className='clear-fix'></div>
+    <Switch>
+      <Route exact path={path}>
+        <HomeBanner />
+        <AddressBanner />
+        <div className='clear-fix'></div>
 
-      <HContentBar title="The top smartphones rated" />
-      <HighlightProductFrame products={phone} />
-      <HContentBar title="The top laptop rated" />
-      <HighlightProductFrame products={laptop} type={1} />
-      <HContentBar title="The top tablet rated" />
-      <HighlightProductFrame products={tablet} />
-    </>
+        <HContentBar title="The top smartphones rated" category='smartphone' />
+        <HighlightProductFrame products={phone} category='smartphone' baseUrl='smartphone' />
+        <HContentBar title="The top laptop rated" category='laptop' />
+        <HighlightProductFrame products={laptop} type={1} category='laptop' baseUrl='laptop' />
+        <HContentBar title="The top tablet rated" category='tablet' />
+        <HighlightProductFrame products={tablet} category='tablet' baseUrl='tablet' />
+      </Route>
+
+      <Route>
+        <DetailPr baseUrl='smartphone' prid={query.get("prid")} />
+      </Route>
+    </Switch>
   );
 }
 

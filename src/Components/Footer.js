@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 
 class ContactFooter extends React.Component {
   render () {
@@ -35,10 +36,10 @@ class SupportFooter extends React.Component {
     return (
       <div className="support-footer">
           <p>Customer service</p>
-          <a href="">Warranty policy</a>
-          <a href="">Returns & exchanges</a>
-          <a href="">Online ordering</a>
-          <a href="">Installment buying</a>
+          <Link to="/help/warranty-policy?ar=-MTo5sIXXtXpD-BUan1H">Warranty policy</Link>
+          <Link to="/help/returns--exchanges?ar=-MToJ2OKKGuHVVJG3E2j">Returns & exchanges</Link>
+          <Link to="/help/online-ordering?ar=-MToJ_6oEyu4ZiwU0JKR">Online ordering</Link>
+          <Link to="/help/installment-buying?ar=-MToKGFCVOj5Uj3rFpwZ">Installment buying</Link>
       </div>
     );
   }

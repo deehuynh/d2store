@@ -25,6 +25,9 @@ class Smartphone extends React.Component {
       name: '',
       price: '',
       image: '',
+      image1: '',
+      image2: '',
+      image3: '',
       brand: '',
       public: true,
       screen: '',
@@ -37,6 +40,8 @@ class Smartphone extends React.Component {
       memoryStick: '',
       sim: '',
       pin: '',
+      box: '',
+      rating: {},
       brandList: [],
     };
     this.onHandleChangeAddForm = this.onHandleChangeAddForm.bind(this);
@@ -100,6 +105,10 @@ class Smartphone extends React.Component {
           memoryStick: this.state.memoryStick,
           sim: this.state.sim,
           pin: this.state.pin,
+          box: this.state.box,
+          image1: this.state.image1,
+          image2: this.state.image2,
+          image3: this.state.image3,
     }, (error) => {
       if (error) {
         console.log(error);
@@ -119,7 +128,11 @@ class Smartphone extends React.Component {
           internalMemory: '',
           memoryStick: '',
           sim: '',
-          pin: ''
+          pin: '',
+          box: '',
+          image1: '',
+          image2: '',
+          image3: '',
         });
       }
     });
@@ -206,7 +219,11 @@ class AddDetailProductForm extends React.Component {
       internalMemory: states.internalMemory,
       memoryStick: states.memoryStick,
       sim: states.sim,
-      pin: states.pin
+      pin: states.pin,
+      box: states.box,
+      image1: states.image1,
+      image2: states.image2,
+      image3: states.image3,
     };
 
     return (
@@ -249,6 +266,40 @@ class AddDetailProductForm extends React.Component {
 
         <Form.Group controlId="formBasicPin">
           <Form.Control type='text' name='pin' placeholder='Pin' value={data.pin} onChange={(e) => {this.onChangeValue(e)}} />
+        </Form.Group>
+
+        <Form.Group>
+          <Form.Control as='textarea' name='box' value={data.box} placeholder="what's in the box?" onChange={(e) => {this.onChangeValue(e)}} />
+        </Form.Group>
+
+        <Form.Group>
+          <Form.Label>Detailed pictures of the product</Form.Label>
+        </Form.Group>
+
+        <Form.Group>
+          <Form.Control type='text' name='image1' placeholder='Enter link image...' value={data.image1} onChange={(e) => {this.onChangeValue(e)}} />
+        </Form.Group>
+
+        <Form.Group>
+          <Form.Control type='text' name='image2' placeholder='Enter link image...' value={data.image2} onChange={(e) => {this.onChangeValue(e)}} />
+        </Form.Group>
+
+        <Form.Group>
+          <Form.Control type='text' name='image3' placeholder='Enter link image...' value={data.image3} onChange={(e) => {this.onChangeValue(e)}} />
+        </Form.Group>
+
+        <Form.Group>
+          <div className="pr-pictures">
+            <img src={data.image1} alt="Not found image link" />
+          </div>
+
+          <div className="pr-pictures">
+            <img src={data.image2} alt="Not found image link" />
+          </div>
+
+          <div className="pr-pictures">
+            <img src={data.image3} alt="Not found image link" />
+          </div>
         </Form.Group>
 
         <Button variant="primary" type="submit" style={{float: 'right'}}>Submit</Button>
@@ -590,6 +641,7 @@ function SmartphonePr (props) {
       }
       <div className="cp-product-info">
         <div className="cp-product-name">{data.name === '' ? '---' : data.name}</div>
+        {props.states.title ? <div className="cp-product-name">{props.states.title === '' ? '---' : props.states.title}</div> : null}
         <div className="cp-product-price">{data.price === '' ? '$0.00' : data.price}</div>
       </div>
     </div>

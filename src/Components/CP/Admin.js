@@ -6,6 +6,7 @@ import {Smartphone} from "./Smartphone";
 import Dashboard from './Dashboard';
 import Tablet from "./Tablet";
 import {Laptop} from "./Laptop";
+import Help from './Help';
 import TV from './TV';
 import Accessories from './Accessories';
 import {BrowserRouter as Router, Route, Switch, NavLink, Link} from 'react-router-dom';
@@ -49,6 +50,7 @@ class Admin extends React.Component {
                                     <NavDropdown.Item as={NavLink} to='/laptop'>Laptop</NavDropdown.Item>
                                     <NavDropdown.Item as={NavLink} to='/tv'>TV</NavDropdown.Item>
                                     <NavDropdown.Item as={NavLink} to='/accessories'>Accessories</NavDropdown.Item>
+                                    <NavDropdown.Item as={NavLink} to='/help'>Help</NavDropdown.Item>
                                 </NavDropdown>
                             </Nav>
                             <Form inline>
@@ -93,6 +95,11 @@ class Admin extends React.Component {
                                 <Route path="/accessories">
                                     
                                     <Accessories />
+                                </Route>
+
+                                <Route path="/help">
+                                    
+                                    <Help />
                                 </Route>
 
                             </Switch>

@@ -151,6 +151,11 @@
     text-overflow: ellipsis;
 }
 
+.pr-pictures {
+    display: inline-block;
+    width: 33%;
+}
+
 #add-smartphone-form {
     display: none;
 }

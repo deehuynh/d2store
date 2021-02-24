@@ -205,6 +205,7 @@ img {
 }
 
 .see-more {
+    text-decoration: none;
     display: none;
 }
 
@@ -294,7 +295,7 @@ img {
 }
 
 .product-rate {
-    padding: 0 10px;
+    padding: 0 15px;
     color: gold;
 }
 
@@ -325,6 +326,17 @@ img {
     color: #dd0000;
 }
 
+.product-info-detail {
+    margin: 5px 15px;
+}
+
+.product-info-detail p {
+    color: #666666;
+    font-weight: 200;
+    font-size: 13px;
+    margin-bottom: 4px;
+}
+
 
 /*FOOTER*/
 
@@ -333,9 +345,10 @@ img {
     flex-basis: 0;
     width: 100%;
     height: auto;
-    margin-top: 15px;
+    margin-top: 25px;
     background-color: white;
     justify-content: center;
+    padding-top: 20px;
 }
 
 .support-footer {
@@ -602,6 +615,14 @@ img {
   .highlight-products {
       width: 50%;
       height: 300px;
+  }
+
+  .product-rate {
+      font-size: 13px;
+  }
+
+  .product-rate .product-rate-evaluation {
+      font-size: 11px;
   }
 
 }

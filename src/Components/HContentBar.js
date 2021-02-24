@@ -1,14 +1,15 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 
-class HContentBar extends React.Component {
-  render () {
+function HContentBar (props) {
+
     return (
       <div className="header-bar">
-        <span className="header-bar-title">{this.props.title}</span>
-        <a href="" className="header-bar-more">See more</a>
+        <span className="header-bar-title">{props.title}</span>
+        <Link to={`/${props.category}`} className="header-bar-more">See more</Link>
       </div>
     );
-  }
+    
 }
 
 export default HContentBar;
