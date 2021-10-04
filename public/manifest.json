@@ -1,11 +1,21 @@
 {
   "short_name": "D2 Store",
-  "name": "D2 Store - Mobile Phone Store",
+  "name": "D2 Store  Mobile Phone Store",
   "icons": [
     {
       "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
+      "sizes": "64x64",
       "type": "image/x-icon"
+    },
+    {
+      "src": "favicon16x16.png",
+      "type": "image/png",
+      "sizes": "16x16"
+    },
+    {
+      "src": "favicon32x32.png",
+      "type": "image/png",
+      "sizes": "32x32"
     },
     {
       "src": "logo192.png",
