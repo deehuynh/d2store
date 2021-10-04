@@ -23,7 +23,11 @@ function Tablet () {
     internalMemory: '',
     memoryStick: '',
     sim: '',
-    pin: ''
+    pin: '',
+    box: '',
+    image1: '',
+    image2: '',
+    image3: '',
   };
 
   const [state, setState] = useState(basicInformation);
@@ -247,6 +251,40 @@ function DetailInformation (props) {
 
         <Form.Group controlId="formBasicPin">
           <Form.Control type='text' name='pin' placeholder='Pin' value={data.pin} onChange={(e)=>{props.handleChangeState(e)}} />
+        </Form.Group>
+
+        <Form.Group>
+          <Form.Control as='textarea' name='box' value={data.box} placeholder="what's in the box?" onChange={(e) => {props.handleChangeState(e)}} />
+        </Form.Group>
+
+        <Form.Group>
+          <Form.Label>Detailed pictures of the product</Form.Label>
+        </Form.Group>
+
+        <Form.Group>
+          <Form.Control type='text' name='image1' placeholder='Enter link image...' value={data.image1} onChange={(e) => {props.handleChangeState(e)}} />
+        </Form.Group>
+
+        <Form.Group>
+          <Form.Control type='text' name='image2' placeholder='Enter link image...' value={data.image2} onChange={(e) => {props.handleChangeState(e)}} />
+        </Form.Group>
+
+        <Form.Group>
+          <Form.Control type='text' name='image3' placeholder='Enter link image...' value={data.image3} onChange={(e) => {props.handleChangeState(e)}} />
+        </Form.Group>
+
+        <Form.Group>
+          <div className="pr-pictures">
+            <img src={data.image1} alt="Not found image link" />
+          </div>
+
+          <div className="pr-pictures">
+            <img src={data.image2} alt="Not found image link" />
+          </div>
+
+          <div className="pr-pictures">
+            <img src={data.image3} alt="Not found image link" />
+          </div>
         </Form.Group>
 
       <Button variant="primary" type="submit" style={{float: 'right'}}>Submit</Button>

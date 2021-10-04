@@ -4,39 +4,19 @@ import Logo from './Logo';
 import SearchBar from './SearchBar';
 import Navigation from './Navigation';
 import SecondNavigation from './SecondNavigation';
-import Cart from './Cart';
-import HContentBar from './HContentBar';
+import {Cart, CartBtn} from './Cart';
 import {Footer, SupportFooter, AddressFooter, ContactFooter} from './Footer';
-import {Home, HomeBanner, AddressBanner, HighlightProductFrame} from './Home';
-import {Smartphone, BrandBar, FilterPrices, CustomBar} from './Smartphone';
+import {Home} from './Home';
+import {Smartphone} from './Smartphone';
 import Tablet from './Tablet';
 import Laptop from './Laptop';
-import PC from './PC';
+import TV from './TV';
 import Help from './Help';
+import PageNotFound from './404';
 import Brand from './Brand';
-import {Accessories, AccessoryList} from './Accessories';
+import {Accessories} from './Accessories';
 import {BrowserRouter as Router, Link, Route, Switch, NavLink} from 'react-router-dom';
 import fireDb from '../firebase';
-
-const COMPUTER = [
-  {name: 'Acer Aspire XC-885 i5-8400', price: '9.790.000', image: 'https://cdn.tgdd.vn/Products/Images/5698/185050/may-tinh-bo-acer-aspire-xc-885-i5-8400-dtbaqsv010-600x600.jpg'},
-  {name: 'HP ProDesk 400G4MT', price: '12.490.000', image: 'https://cdn.tgdd.vn/Products/Images/5698/154922/may-tinh-bo-hp-prodesk-400g4mt-i5-7500-4gb-1tb-2gb-1-org.jpg'}
-];
-
-const PRICESMARTPHONE = [
-  {key:'0' ,price: "Under $100", type: 'under', value: [100]},
-  {key:'1' ,price: "$100 - $200", type: 'limit', value: [100, 200]},
-  {key:'2' ,price: "$200 - $500", type: 'limit', value: [200, 500]},
-  {key:'3' ,price: "$500 - $1000", type: 'limit', value: [500, 1000]},
-  {key:'4' ,price: "Over $1000", type: 'over', value: [1000]}
-];
-
-const PRICELAPTOP = [
-  {key:'0', price: "Under $500", type: 'under', value: [500]},
-  {key:'1' ,price: "$500 - $1000", type: 'limit', value: [500, 1000]},
-  {key:'2' ,price: "$1000 - $2000", type: 'limit', value: [1000, 2000]},
-  {key:'3' ,price: "Over $2000", type: 'over', value: [2000]}
-];
 
 class Layout extends React.Component {
   constructor (props) {
@@ -71,17 +51,17 @@ class Layout extends React.Component {
     return (
       <div className="container">
         <Header>
-        <Logo />
-        <SearchBar />
-        <Navigation>
-          <NavLink to="/smartphone" className="tabs" activeStyle={{color: "#00ccff"}}><i className="fas fa-mobile-alt"></i><span className="tab-name">Smartphone</span></NavLink>
-          <NavLink to="/tablet" className="tabs" activeStyle={{color: "#00ccff"}}><i style={{transform: "rotate(90deg)"}} className="fas fa-tablet-alt"></i><span className="tab-name">Tablet</span></NavLink>
-          <NavLink to="/laptop" className="tabs" activeStyle={{color: "#00ccff"}}><i className="fas fa-laptop"></i><span className="tab-name">Laptop</span></NavLink>
-          <NavLink to="/tv" className="tabs" activeStyle={{color: "#00ccff"}}><i className="fas fa-tv" ></i><span className="tab-name">TV</span></NavLink>
-          <NavLink to="/accessories" className="tabs" activeStyle={{color: "#00ccff"}}><i className="fas fa-headphones-alt"></i><span className="tab-name">Accessories</span></NavLink>
-          <NavLink to="/help" className="tabs" activeStyle={{color: "#00ccff"}}><i className="far fa-question-circle"></i><span className="tab-name">Help</span></NavLink>
-        </Navigation>
-        <Cart />
+          <Logo />
+          <SearchBar />
+          <Navigation>
+            <NavLink to="/smartphone" className="tabs" activeStyle={{color: "#00ccff"}}><i className="fas fa-mobile-alt"></i><span className="tab-name">Smartphone</span></NavLink>
+            <NavLink to="/tablet" className="tabs" activeStyle={{color: "#00ccff"}}><i style={{transform: "rotate(90deg)"}} className="fas fa-tablet-alt"></i><span className="tab-name">Tablet</span></NavLink>
+            <NavLink to="/laptop" className="tabs" activeStyle={{color: "#00ccff"}}><i className="fas fa-laptop"></i><span className="tab-name">Laptop</span></NavLink>
+            <NavLink to="/tv" className="tabs" activeStyle={{color: "#00ccff"}}><i className="fas fa-tv" ></i><span className="tab-name">TV</span></NavLink>
+            <NavLink to="/accessories" className="tabs" activeStyle={{color: "#00ccff"}}><i className="fas fa-headphones-alt"></i><span className="tab-name">Accessories</span></NavLink>
+            <NavLink to="/help" className="tabs" activeStyle={{color: "#00ccff"}}><i className="far fa-question-circle"></i><span className="tab-name">Help</span></NavLink>
+          </Navigation>
+          <CartBtn />
         </Header>
         <SecondNavigation>
                 <NavLink to="/smartphone" className="tabs" activeStyle={{color: "#00ccff"}}><i className="fas fa-mobile-alt"></i><span className="tab-name">Phone</span></NavLink>
@@ -99,32 +79,21 @@ class Layout extends React.Component {
           </Route>
 
           <Route path="/smartphone">
-            <Smartphone
-              brands={this.state.brands}
-              price={PRICESMARTPHONE} />
+            <Smartphone brands={this.state.brands} />
           </Route>
 
           <Route path="/tablet">
-            <Tablet 
-              brands={this.state.brands}
-              price={PRICESMARTPHONE}
-            />
+            <Tablet brands={this.state.brands} />
           </Route>
 
           <Route path="/laptop">
             <Laptop
               brands={this.state.brands}
-              price={PRICELAPTOP}
             />
           </Route>
 
           <Route path="/tv">
-            <PC>
-              <BrandBar brands={this.state.brands} categoryDefault="PC" />
-              <FilterPrices prices={PRICELAPTOP} />
-              <CustomBar />
-              <HighlightProductFrame products={COMPUTER} />
-            </PC>
+            <TV brands={this.state.brands} />
           </Route>
 
           <Route path="/accessories">
@@ -135,11 +104,12 @@ class Layout extends React.Component {
             <Help />
           </Route>
 
-          <Route path="/brand/:name">
-            <Brand
-              brands={this.state.brands}
-              price={PRICESMARTPHONE}
-            />
+          <Route path="/cart">
+            <Cart />
+          </Route>
+
+          <Route path='*'>
+            <PageNotFound />
           </Route>
       
         </Switch>
@@ -151,7 +121,7 @@ class Layout extends React.Component {
         <div className="clear-fix"></div>
         
       </Footer>
-      <div className="footer-copyright">&copy; 2021 - D2shop.com. All right reserved.</div>
+      <div className="footer-copyright">&copy; 2021 - D2shop.com. Upwork profile: <a target='blank' href='https://www.upwork.com/freelancers/~0115b91248f865410e'>Dong Nhan</a></div>
       </div>
     );
   }

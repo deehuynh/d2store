@@ -1,19 +1,13 @@
 import React, {useState, useEffect, useReducer} from 'react';
 import fireDb from '../firebase';
-import handleAction from '../Hooks/useRd';
+import handleAction from './useRd';
 
-function usePr (key) {
+function usePrNew (key) {
   const initState = [];
   const [allPr, dispatch] = useReducer(handleAction, initState);
   const [cloneAllPr, setCloneAllPr] = useState([]);
   const [limit, setLimit] = useState(0);
   const [pr, setPr] = useState([]);
-  const [prOfBrand, setPrOfBrand] = useState('none');
-  const [isLoading, setIsLoading] = useState(true);
-
-  function handleSetPOB (state) {
-    setPrOfBrand(state);
-  }
 
   useEffect(()=>{
     fireDb.ref(key).orderByChild('public').equalTo(true).once('value', getPr);
@@ -26,10 +20,9 @@ function usePr (key) {
       let val = item.val();
       data.push({...val, key: key });
     });
-    dispatch({type: 'INIT_DATA', payload: data.reverse()});
+    dispatch({type: 'INIT_DATA', payload: data});
     setCloneAllPr(data);
     setLimit(10);
-    setIsLoading(false);
   }
 
   useEffect(()=>{
@@ -45,8 +38,8 @@ function usePr (key) {
   }
 
   return [
-    allPr, cloneAllPr, pr, limit, prOfBrand, isLoading, handleSeeMore, dispatch, handleSetPOB
+    allPr, cloneAllPr, pr, limit, handleSeeMore, dispatch
   ];
 }
 
-export default usePr;
+export default usePrNew;

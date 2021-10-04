@@ -568,6 +568,44 @@ function TVDetailPr (props) {
                 />
             </Form.Group>
 
+            <Form.Group>
+                <Form.Control
+                  as='textarea' name='box' placeholder="what's in the box?"
+                  value={state.box}
+                  onChange={(e)=>{props.handleChangeState(e)}}
+                />
+            </Form.Group>
+
+            <Form.Group>
+                <Form.Label>Detailed pictures of the product</Form.Label>
+            </Form.Group>
+
+            <Form.Group>
+                <Form.Control type='text' name='image1' placeholder='Enter link image...' value={state.image1} onChange={(e) => {props.handleChangeState(e)}} />
+                </Form.Group>
+
+                <Form.Group>
+                <Form.Control type='text' name='image2' placeholder='Enter link image...' value={state.image2} onChange={(e) => {props.handleChangeState(e)}} />
+                </Form.Group>
+
+                <Form.Group>
+                <Form.Control type='text' name='image3' placeholder='Enter link image...' value={state.image3} onChange={(e) => {props.handleChangeState(e)}} />
+                </Form.Group>
+
+                <Form.Group>
+                <div className="pr-pictures">
+                    <img src={state.image1} alt="Not found image link" />
+                </div>
+
+                <div className="pr-pictures">
+                    <img src={state.image2} alt="Not found image link" />
+                </div>
+
+                <div className="pr-pictures">
+                    <img src={state.image3} alt="Not found image link" />
+                </div>
+            </Form.Group>
+
         </Col></Row>
     );
 }
@@ -664,6 +702,44 @@ function LaptopDetailPr (props) {
                     onChange={(e)=>{props.handleChangeState(e)}}
                 />
             </Form.Group>
+
+            <Form.Group>
+                <Form.Control
+                  as='textarea' name='box' placeholder="what's in the box?"
+                  value={state.box}
+                  onChange={(e)=>{props.handleChangeState(e)}}
+                />
+            </Form.Group>
+
+            <Form.Group>
+                <Form.Label>Detailed pictures of the product</Form.Label>
+            </Form.Group>
+
+            <Form.Group>
+                <Form.Control type='text' name='image1' placeholder='Enter link image...' value={state.image1} onChange={(e) => {props.handleChangeState(e)}} />
+                </Form.Group>
+
+                <Form.Group>
+                <Form.Control type='text' name='image2' placeholder='Enter link image...' value={state.image2} onChange={(e) => {props.handleChangeState(e)}} />
+                </Form.Group>
+
+                <Form.Group>
+                <Form.Control type='text' name='image3' placeholder='Enter link image...' value={state.image3} onChange={(e) => {props.handleChangeState(e)}} />
+                </Form.Group>
+
+                <Form.Group>
+                <div className="pr-pictures">
+                    <img src={state.image1} alt="Not found image link" />
+                </div>
+
+                <div className="pr-pictures">
+                    <img src={state.image2} alt="Not found image link" />
+                </div>
+
+                <div className="pr-pictures">
+                    <img src={state.image3} alt="Not found image link" />
+                </div>
+            </Form.Group>
         </Col></Row>
     );
 }
@@ -674,14 +750,14 @@ function AcsrDetailPr (props) {
     return (
         <Row><Col xs='12'>
             <Form.Group>
-                    <Form.Control
-                        as='select' name='type' custom
-                        onChange={(e)=>{props.handleChangeState(e)}}
-                    >
-                        {options}
-                    </Form.Control>
+                <Form.Control
+                    as='select' name='type' custom
+                    onChange={(e)=>{props.handleChangeState(e)}}
+                >
+                    {options}
+                </Form.Control>
                     
-                </Form.Group>
+            </Form.Group>
 
             <Form.Group>
                 <Form.Control
@@ -690,6 +766,44 @@ function AcsrDetailPr (props) {
                     value={state.description}
                     onChange={(e)=>{props.handleChangeState(e)}}
                 />
+            </Form.Group>
+
+            <Form.Group>
+                <Form.Control
+                  as='textarea' name='box' placeholder="what's in the box?"
+                  value={state.box}
+                  onChange={(e)=>{props.handleChangeState(e)}}
+                />
+            </Form.Group>
+
+            <Form.Group>
+                <Form.Label>Detailed pictures of the product</Form.Label>
+            </Form.Group>
+
+            <Form.Group>
+                <Form.Control type='text' name='image1' placeholder='Enter link image...' value={state.image1} onChange={(e) => {props.handleChangeState(e)}} />
+                </Form.Group>
+
+                <Form.Group>
+                <Form.Control type='text' name='image2' placeholder='Enter link image...' value={state.image2} onChange={(e) => {props.handleChangeState(e)}} />
+                </Form.Group>
+
+                <Form.Group>
+                <Form.Control type='text' name='image3' placeholder='Enter link image...' value={state.image3} onChange={(e) => {props.handleChangeState(e)}} />
+                </Form.Group>
+
+                <Form.Group>
+                <div className="pr-pictures">
+                    <img src={state.image1} alt="Not found image link" />
+                </div>
+
+                <div className="pr-pictures">
+                    <img src={state.image2} alt="Not found image link" />
+                </div>
+
+                <div className="pr-pictures">
+                    <img src={state.image3} alt="Not found image link" />
+                </div>
             </Form.Group>
 
         </Col></Row>

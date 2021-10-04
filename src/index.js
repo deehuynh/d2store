@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useReducer } from 'react';
 import ReactDOM from 'react-dom';
 import './Style/index.css';
 import './Style/products.css';
@@ -7,6 +7,9 @@ import Site from './Components/Layout';
 import * as serviceWorker from './serviceWorker';
 import {BrowserRouter as Router, Link, Route, Switch, NavLink} from 'react-router-dom';
 import ScrollToTop from './Components/ScrollToTop';
+import {StateProvider} from './Components/StateProvider';
+import reducer, {initState} from './Components/reducer';
+
 
 ReactDOM.render(
   <React.StrictMode>
@@ -14,12 +17,14 @@ ReactDOM.render(
       <ScrollToTop />
       <Switch>
         
-        <Route path='/admin'>
+        {/* <Route path='/admin'>
           <Admin />
-        </Route>
+        </Route> */}
 
         <Route path='/'>
-          <Site />
+          <StateProvider initState={initState} reducer={reducer}>
+            <Site />
+          </StateProvider>
         </Route>
         
       </Switch>

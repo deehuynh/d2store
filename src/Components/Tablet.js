@@ -11,33 +11,36 @@ import usePr from '../Hooks/usePr';
 import usePrL from '../Hooks/usePrL';
 import {useMediaQuery} from 'react-responsive';
 import {
-  BrandBar, CustomBar, FilterPrices, NoDataFound
+  BrandBar, CustomBar, FilterPrices
 } from '../Components/Smartphone';
 import useQuery from '../Hooks/useQuery';
+import Loader from './Loader';
+import NoDataFound from './NoDataFound';
 
-function TabletL (props) {
+const prices = [
+  {key:'0' ,price: "Under $100", type: 'under', value: [100]},
+  {key:'1' ,price: "$100 - $200", type: 'limit', value: [100, 200]},
+  {key:'2' ,price: "$200 - $500", type: 'limit', value: [200, 500]},
+  {key:'3' ,price: "$500 - $1000", type: 'limit', value: [500, 1000]},
+  {key:'4' ,price: "Over $1000", type: 'over', value: [1000]}
+];
+
+function Tablet (props) {
   let {path, url} = useRouteMatch();
   let query = useQuery();
   
-  const [
-    allPr, pr, handleSeeMore, limit, currentPr, getCurrentPr,
-    setPrConditional, unlock, cloneAllPr, lowToHigh, highToLow, selectBrand
-  ] = usePrL('tablet');
+  const [allPr, cloneAllPr, pr, limit, prOfBrand, isLoading, handleSeeMore, dispatch, handleSetPOB] = usePr('tablet');
 
   return (
     <Switch>
       <Route exact path={path}>
-        <BrandBar selectBrand={selectBrand} brands={props.brands} categoryDefault="Tablet" />
-        <FilterPrices
-          prices={props.price} type='tablet'
-          setPrConditional={setPrConditional}
-          totalP={4}
-        />
-        <CustomBar lowToHigh={lowToHigh} highToLow={highToLow} />
-        <NoDataFound unlock={unlock} />
-        <HighlightProductFrame detail={true} products={pr} hide='hide' baseUrl='tablet' />
+        <BrandBar brands={props.brands} categoryDefault="Tablet" handleSetPOB={handleSetPOB} handleBrand={(obj)=>{dispatch({type: 'BRAND', brand: obj, cloneState: cloneAllPr})}} />
+        <FilterPrices prices={prices} handlePrice={(price)=>{dispatch({type: 'PRICE', price: price, prOfBrand: prOfBrand, cloneState: cloneAllPr})}}/>
+        <CustomBar lowToHigh={()=>{dispatch({type: 'LOWTOHIGH'})}} highToLow={()=>{dispatch({type: 'HIGHTOLOW'})}} />
+        { isLoading ? <Loader /> : <HighlightProductFrame detail={true} products={pr} hide='hide' baseUrl='tablet' />}
+        { allPr.length === 0 && isLoading === false ? <NoDataFound /> : null}
         {
-          cloneAllPr.length > limit ?
+          allPr.length > limit ?
           <SeeMore handleSeeMore={handleSeeMore} /> :
           null
         }
@@ -48,51 +51,6 @@ function TabletL (props) {
       </Route> 
     </Switch>
   );
-}
-
-function TabletM (props) {
-  let {path, url} = useRouteMatch();
-  let query = useQuery();
-  
-  const [
-    allPr, pr, handleSeeMore, limit, currentPr, getCurrentPr,
-    setPrConditional, unlock, cloneAllPr, lowToHigh, highToLow, selectBrand
-  ] = usePr('tablet');
-
-  return (
-    <Switch>
-      <Route exact path={path}>
-        <BrandBar selectBrand={selectBrand} brands={props.brands} categoryDefault="Tablet" />
-        <FilterPrices
-          prices={props.price} type='tablet'
-          setPrConditional={setPrConditional}
-          totalP={4}
-        />
-        <CustomBar lowToHigh={lowToHigh} highToLow={highToLow} />
-        <NoDataFound unlock={unlock} />
-        <HighlightProductFrame detail={true} products={pr} hide='hide' baseUrl='tablet' />
-        {
-          cloneAllPr.length > limit ?
-          <SeeMore handleSeeMore={handleSeeMore} /> :
-          null
-        } 
-      </Route>
-
-      <Route path={`${path}/:prId`}>
-        <DetailPr baseUrl='tablet' baseName='Tablet' prid={query.get("prid")} />
-      </Route> 
-    </Switch>
-  );
-}
-
-function Tablet (props) {
-  const isTabletOrMobile = useMediaQuery({ maxWidth: 1224 });
-
-  if (isTabletOrMobile) {
-    return <TabletM brands={props.brands} price={props.price} />;
-  }
-
-  return <TabletL brands={props.brands} price={props.price} />;
 }
 
 export default Tablet;

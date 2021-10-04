@@ -1,207 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import { Router } from 'react-router-dom';
 import {Slide} from 'react-slideshow-image';
 import StarRating from 'react-star-rating-component';
 import {Link} from 'react-router-dom';
-import {useParams, useRouteMatch} from 'react-router-dom';
+import {useParams, useRouteMatch, Redirect} from 'react-router-dom';
 import useRating from '../Hooks/useRating';
 import fireDb from '../firebase';
 import moment from 'moment';  
 import SeeMoreBTN from '../Components/SeeMoreBTN';
-import useDetailPr from '../Hooks/useDetailPr';
-
-/*function DetailPr (props) {
-  const baseInfor = {
-    name: '',
-    key: '',
-    price: '',
-    image: '',
-    image1: '',
-    image2: '',
-    image3: '',
-    brand: '',
-    public: true,
-    screen: '',
-    operatingSystem: '',
-    rearCamera: '',
-    frontCamera: '',
-    cpu: '',
-    ram: '',
-    internalMemory: '',
-    memoryStick: '',
-    sim: '',
-    pin: '',
-    box: '',
-    rating: {},
-    brandList: [],
-  };
-  const [allPr, setAllPr] = useState([]);
-  const baseUrl = props.baseUrl;
-  const [pr, setPr] = useState(baseInfor);
-  const [key, setKey] = useState(pr.key);
-  const {prId} = useParams();
-
-  useEffect (()=>{
-    fireDb.ref(baseUrl).once('value', getPr);
-  }, []);
-  function getPr (snapshot) {
-    let data = [];
-    snapshot.forEach((item)=>{
-      let key = item.key;
-      let val = item.val();
-      data.push({...val, key: key });
-    });
-    setAllPr(data);
-  }
-  function FormatUrl (props) {
-    props = props.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g,"a"); 
-    props = props.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g,"e"); 
-    props = props.replace(/ì|í|ị|ỉ|ĩ/g,"i"); 
-    props = props.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g,"o"); 
-    props = props.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g,"u"); 
-    props = props.replace(/ỳ|ý|ỵ|ỷ|ỹ/g,"y"); 
-    props = props.replace(/đ/g,"d");
-    props = props.replace(/À|Á|Ạ|Ả|Ã|Â|Ầ|Ấ|Ậ|Ẩ|Ẫ|Ă|Ằ|Ắ|Ặ|Ẳ|Ẵ/g, "A");
-    props = props.replace(/È|É|Ẹ|Ẻ|Ẽ|Ê|Ề|Ế|Ệ|Ể|Ễ/g, "E");
-    props = props.replace(/Ì|Í|Ị|Ỉ|Ĩ/g, "I");
-    props = props.replace(/Ò|Ó|Ọ|Ỏ|Õ|Ô|Ồ|Ố|Ộ|Ổ|Ỗ|Ơ|Ờ|Ớ|Ợ|Ở|Ỡ/g, "O");
-    props = props.replace(/Ù|Ú|Ụ|Ủ|Ũ|Ư|Ừ|Ứ|Ự|Ử|Ữ/g, "U");
-    props = props.replace(/Ỳ|Ý|Ỵ|Ỷ|Ỹ/g, "Y");
-    props = props.replace(/Đ/g, "D");
-    // Some system encode vietnamese combining accent as individual utf-8 characters
-    props = props.replace(/\u0300|\u0301|\u0303|\u0309|\u0323/g, ""); // ̀ ́ ̃ ̉ ̣ 
-    props = props.replace(/\u02C6|\u0306|\u031B/g, ""); // ˆ ̆ ̛  Â, Ê, Ă, Ơ, Ư
-    // Remove extra spaces
-    props = props.replace(/ + /g,"-");
-    props = props.trim();
-    // Remove punctuations
-    props = props.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|{|}|\||\\/g,"");
-    props = props.replace(/ /g,"-");
-    props = props.toLowerCase();
-    return props;
-  }
-
-  let data = null;
-
-  allPr.forEach((item)=>{
-    let url = FormatUrl(item.name);
-    console.log(item.name);
-    if (prId === url) {
-      data = item;
-    }
-  });
-
-  useEffect (()=>{
-    if (data !== null) {
-      setPr(data);
-      setKey(data.key);
-    }
-  });
-  const primaryKey = props.baseUrl;
-  const {review, star, overallReview, width, overallRating} = useRating(primaryKey,key);
-  console.log(key);
-  console.log(pr);
-  return (
-    <>
-      <div className="headings">
-          <Link to={`/${props.baseUrl}`}>Smartphone</Link>
-          <span><i className="fas fa-chevron-right"></i></span>
-          <Link to={`/${props.baseUrl}/${prId}`}>{pr.name}</Link>
-      </div>
-
-      <div className="pr-photos">
-        <Slide easing='ease'>
-          <div className='each-slide'>
-            <img src={pr.image1} />
-          </div>
-
-          <div className='each-slide'>
-            <img src={pr.image2} />
-          </div>
-
-          <div className='each-slide'>
-            <img src={pr.image3} />
-          </div>
-        </Slide>
-      </div>
-
-      <div className="aside-content">
-        <p className="a-c-brand">{pr.brand}</p>
-        <p className="a-c-name">{pr.name}</p>
-        <div className="a-c-rate"><i className="fas fa-star"></i> <span>{overallRating.toString()}</span> <p className="review">({overallReview} reviews)</p></div>
-        <p className="a-c-price">${pr.price}</p>
-        <p className="a-c-order">
-          <span><i className="fas fa-truck"></i> Get it shipped</span>
-          <span><i className="fas fa-store-alt"></i> Reserve & pick up</span>
-        </p>
-        <button type="button">Add to Cart</button>
-      </div>
-
-      <div className="aside-box">
-        <p>What's in the box</p>
-        <pre>{pr.box}</pre>
-      </div>
-
-      <div className="clear-fix"></div>
-
-      <div style={{marginBottom: '40px'}}>
-
-      <div className="specs m">
-        <p>Specifications</p>
-        <span><strong>Screen:</strong> {pr.screen}</span>
-        <span><strong>Operating system:</strong> {pr.operatingSystem}</span>
-        <span><strong>Rear facing camera:</strong> {pr.rearCamera}</span>
-        <span><strong>Front facing camera:</strong> {pr.frontCamera}</span>
-        <span><strong>Processor:</strong> {pr.cpu}</span>
-        <span><strong>RAM:</strong> {pr.ram}</span>
-        <span><strong>Internal memory:</strong> {pr.internalMemory}</span>
-        <span><strong>Memory stick:</strong> {pr.memoryStick}</span>
-        <span><strong>SIM:</strong> {pr.sim}</span>
-        <span><strong>Battery:</strong> {pr.pin}</span>
-      </div>
-
-      <div className="reviews">
-        <p>Ratings & reviews</p>
-        <div className="rating-box">
-          <div className="overall">
-            <i className="fas fa-star"></i> <span>{overallRating.toString()}</span>
-          </div>
-
-          <div className="detail-rating">
-            <Rating width={width[5]} star='5' rating={star[5]} />
-            <Rating width={width[4]} star='4' rating={star[4]} />
-            <Rating width={width[3]} star='3' rating={star[3]} />
-            <Rating width={width[2]} star='2' rating={star[2]} />
-            <Rating width={width[1]} star='1' rating={star[1]} />
-          </div>
-        </div>
-
-        <RatingAndReview id={pr.key} baseUrl={props.baseUrl} />
-      </div>
-
-      <div className="specs l">
-        <p>Specifications</p>
-        <span><strong>Screen:</strong> {pr.screen}</span>
-        <span><strong>Operating system:</strong> {pr.operatingSystem}</span>
-        <span><strong>Rear facing camera:</strong> {pr.rearCamera}</span>
-        <span><strong>Front facing camera:</strong> {pr.frontCamera}</span>
-        <span><strong>Processor:</strong> {pr.cpu}</span>
-        <span><strong>RAM:</strong> {pr.ram}</span>
-        <span><strong>Internal memory:</strong> {pr.internalMemory}</span>
-        <span><strong>Memory stick:</strong> {pr.memoryStick}</span>
-        <span><strong>SIM:</strong> {pr.sim}</span>
-        <span><strong>Battery:</strong> {pr.pin}</span>
-      </div>
-      <div className="clear-fix"></div>
-      </div>
-
-      <Reviews listRating={review} />
-      
-    </>
-  );
-}*/
+import {useStateValue} from './StateProvider';
 
 function DetailPr (props) {
+  const [cart, dispatch] = useStateValue();
+  function handleCart (product) {
+    dispatch({type: 'ADD', payload: {
+      id: product.key,
+      name: product.name,
+      price: product.price,
+      image: product.image,
+      quantily: 1,
+    }});
+  };
+
   let baseInfor = {
     name: '',
     key: '',
@@ -231,9 +51,10 @@ function DetailPr (props) {
   const key = props.prid;
   const primaryKey = props.baseUrl;
   const [pr, setPr] = useState(baseInfor);
+  const [pageNF, setPageNF] = useState(false);
   useEffect (()=>{
     fireDb.ref(baseUrl).once('value', getPr);
-  }, []);
+  }, [prId]);
   function getPr (snapshot) {
     let data = [];
     snapshot.forEach((item)=>{
@@ -242,10 +63,66 @@ function DetailPr (props) {
         data.push({...val, key: item.key });
       }
     });
-    setPr(data[0]);
+    if (data.length !== 0) {
+      setPr(data[0]);
+    }
+    if (data.length === 0) {
+      setPageNF(true);
+    }
   }
 
   const {review, star, overallReview, width, overallRating} = useRating(primaryKey,key);
+
+  const specs = [];
+  if (baseUrl === 'accessories') {
+    specs.push(<><p>Description</p><div className='specs-description'>{pr.description}</div></>);
+  } else if (baseUrl === 'laptop') {
+    specs.push(
+      <>
+        <p>Specifications</p>
+        <span><strong>Screen</strong> <div>{pr.screen}</div></span>
+        <span><strong>Operating system</strong> <div>{pr.operatingSystem}</div></span>
+        <span><strong>Graphic card</strong> <div>{pr.graphicCard}</div></span>
+        <span><strong>Processor</strong> <div>{pr.processor}</div></span>
+        <span><strong>Storage</strong> <div>{pr.storage}</div></span>
+        <span><strong>RAM</strong> <div>{pr.ram}</div></span>
+        <span><strong>Panel ports</strong> <div>{pr.panelPorts}</div></span>
+        <span><strong>Design</strong> <div>{pr.design}</div></span>
+        <span><strong>Dimensions</strong> <div>{pr.dimensions}</div></span>
+        <span><strong>Battery</strong> <div>{pr.pin}</div></span>
+      </>
+    );
+  } else if (baseUrl === 'tv') {
+    specs.push(<>
+      <p>Specifications</p>
+      <span><strong>Display size</strong> <div>{pr.displaySize}</div></span>
+      <span><strong>Display resolution</strong> <div>{pr.displayResolution}</div></span>
+      <span><strong>Operating system</strong> <div>{pr.operatingSystem}</div></span>
+      <span><strong>Hertz</strong> <div>{pr.hertz}</div></span>
+      <span><strong>Response time</strong> <div>{pr.responseTime}</div></span>
+    </>);
+  } else {
+    specs.push(
+      <>
+      <p>Specifications</p>
+      <span><strong>Screen</strong> <div>{pr.screen}</div></span>
+      <span><strong>Operating system</strong> <div>{pr.operatingSystem}</div></span>
+      <span><strong>Rear facing camera</strong> <div>{pr.rearCamera}</div></span>
+      <span><strong>Front facing camera</strong> <div>{pr.frontCamera}</div></span>
+      <span><strong>Processor</strong> <div>{pr.cpu}</div></span>
+      <span><strong>RAM</strong> <div>{pr.ram}</div></span>
+      <span><strong>Internal memory</strong> <div>{pr.internalMemory}</div></span>
+      <span><strong>Memory stick</strong> <div>{pr.memoryStick}</div></span>
+      <span><strong>SIM</strong> <div>{pr.sim}</div></span>
+      <span><strong>Battery</strong> <div>{pr.pin}</div></span>
+    </>
+    );
+  }
+  
+  if (pageNF === true) {
+    return <Redirect to='/404' />
+  }
+
   return (
     <>
       <div className="headings">
@@ -279,7 +156,7 @@ function DetailPr (props) {
           <span><i className="fas fa-truck"></i> Get it shipped</span>
           <span><i className="fas fa-store-alt"></i> Reserve & pick up</span>
         </p>
-        <button type="button">Add to Cart</button>
+        <button type="button" onClick={()=>{handleCart(pr)}}>Add to Cart</button>
       </div>
 
       <div className="aside-box">
@@ -291,18 +168,8 @@ function DetailPr (props) {
 
       <div style={{marginBottom: '40px'}}>
 
-      <div className="specs m">
-        <p>Specifications</p>
-        <span><strong>Screen:</strong> {pr.screen}</span>
-        <span><strong>Operating system:</strong> {pr.operatingSystem}</span>
-        <span><strong>Rear facing camera:</strong> {pr.rearCamera}</span>
-        <span><strong>Front facing camera:</strong> {pr.frontCamera}</span>
-        <span><strong>Processor:</strong> {pr.cpu}</span>
-        <span><strong>RAM:</strong> {pr.ram}</span>
-        <span><strong>Internal memory:</strong> {pr.internalMemory}</span>
-        <span><strong>Memory stick:</strong> {pr.memoryStick}</span>
-        <span><strong>SIM:</strong> {pr.sim}</span>
-        <span><strong>Battery:</strong> {pr.pin}</span>
+      <div className='specs m'>
+        {specs}
       </div>
 
       <div className="reviews">
@@ -325,18 +192,9 @@ function DetailPr (props) {
       </div>
 
       <div className="specs l">
-        <p>Specifications</p>
-        <span><strong>Screen:</strong> {pr.screen}</span>
-        <span><strong>Operating system:</strong> {pr.operatingSystem}</span>
-        <span><strong>Rear facing camera:</strong> {pr.rearCamera}</span>
-        <span><strong>Front facing camera:</strong> {pr.frontCamera}</span>
-        <span><strong>Processor:</strong> {pr.cpu}</span>
-        <span><strong>RAM:</strong> {pr.ram}</span>
-        <span><strong>Internal memory:</strong> {pr.internalMemory}</span>
-        <span><strong>Memory stick:</strong> {pr.memoryStick}</span>
-        <span><strong>SIM:</strong> {pr.sim}</span>
-        <span><strong>Battery:</strong> {pr.pin}</span>
+        {specs}
       </div>
+
       <div className="clear-fix"></div>
       </div>
 

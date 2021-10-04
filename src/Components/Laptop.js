@@ -11,66 +11,33 @@ import usePr from '../Hooks/usePr';
 import usePrL from '../Hooks/usePrL';
 import {useMediaQuery} from 'react-responsive';
 import {
-  BrandBar, CustomBar, FilterPrices, NoDataFound
+  BrandBar, CustomBar, FilterPrices
 } from '../Components/Smartphone';
+import NoDataFound from './NoDataFound';
 import useQuery from '../Hooks/useQuery';
+import Loader from './Loader';
 
-function LaptopL (props) {
+const prices = [
+  {key:'0', price: "Under $500", type: 'under', value: [500]},
+  {key:'1' ,price: "$500 - $1000", type: 'limit', value: [500, 1000]},
+  {key:'2' ,price: "$1000 - $2000", type: 'limit', value: [1000, 2000]},
+  {key:'3' ,price: "Over $2000", type: 'over', value: [2000]}
+];
+
+function Laptop (props) {
   let {path, url} = useRouteMatch();
   let query = useQuery();
   
-  const [
-    allPr, pr, handleSeeMore, limit, currentPr, getCurrentPr,
-    setPrConditional, unlock, cloneAllPr, lowToHigh, highToLow, selectBrand
-  ] = usePrL('laptop');
+  const [allPr, cloneAllPr, pr, limit, prOfBrand, isLoading, handleSeeMore, dispatch, handleSetPOB] = usePr('laptop');
 
   return (
     <Switch>
       <Route exact path={path}>
-        <BrandBar selectBrand={selectBrand} brands={props.brands} categoryDefault="Laptop" />
-        <FilterPrices
-          prices={props.price} type='laptop'
-          setPrConditional={setPrConditional}
-          totalP={3}
-        />
-        <CustomBar lowToHigh={lowToHigh} highToLow={highToLow} />
-        <NoDataFound unlock={unlock} />
-        <HighlightProductFrame detail={true} products={pr} hide='hide' baseUrl='laptop' />
-        {
-          cloneAllPr.length > limit ?
-          <SeeMore handleSeeMore={handleSeeMore} /> :
-          null
-        }
-      </Route>
-
-      <Route path={`${path}/:prId`}>
-        <DetailPr baseUrl='laptop' baseName='Laptop' prid={query.get("prid")} />
-      </Route> 
-    </Switch>
-  );
-}
-
-function LaptopM (props) {
-  let {path, url} = useRouteMatch();
-  let query = useQuery();
-  
-  const [
-    allPr, pr, handleSeeMore, limit, currentPr, getCurrentPr,
-    setPrConditional, unlock, cloneAllPr, lowToHigh, highToLow, selectBrand
-  ] = usePr('laptop');
-
-  return (
-    <Switch>
-      <Route exact path={path}>
-        <BrandBar selectBrand={selectBrand} brands={props.brands} categoryDefault="Laptop" />
-        <FilterPrices
-          prices={props.price} type='laptop'
-          setPrConditional={setPrConditional}
-          totalP={3}
-        />
-        <CustomBar lowToHigh={lowToHigh} highToLow={highToLow} />
-        <NoDataFound unlock={unlock} />
-        <HighlightProductFrame detail={true} products={pr} hide='hide' baseUrl='laptop' />
+        <BrandBar brands={props.brands} categoryDefault="Laptop" handleSetPOB={handleSetPOB} handleBrand={(obj)=>{dispatch({type: 'BRAND', brand: obj, cloneState: cloneAllPr})}} />
+        <FilterPrices prices={prices} handlePrice={(price)=>{dispatch({type: 'PRICE', price: price, prOfBrand: prOfBrand, cloneState: cloneAllPr})}}/>
+        <CustomBar lowToHigh={()=>{dispatch({type: 'LOWTOHIGH'})}} highToLow={()=>{dispatch({type: 'HIGHTOLOW'})}} />
+        {isLoading ? <Loader /> : <HighlightProductFrame detail={false} products={pr} hideram='hide' hide='hide' baseUrl='laptop' type='laptop' />}
+        {allPr.length === 0 && isLoading === false ? <NoDataFound /> : null}
         {
           cloneAllPr.length > limit ?
           <SeeMore handleSeeMore={handleSeeMore} /> :
@@ -83,16 +50,6 @@ function LaptopM (props) {
       </Route> 
     </Switch>
   );
-}
-
-function Laptop (props) {
-  const isTabletOrMobile = useMediaQuery({ maxWidth: 1224 });
-
-  if (isTabletOrMobile) {
-    return <LaptopM brands={props.brands} price={props.price} />;
-  }
-
-  return <LaptopL brands={props.brands} price={props.price} />;
 }
 
 export default Laptop;

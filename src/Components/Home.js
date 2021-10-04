@@ -19,6 +19,7 @@ import {
   useParams, useRouteMatch
 } from 'react-router-dom';
 import useQuery from '../Hooks/useQuery';
+import Loader from './Loader';
 
 function HighlightProductFrame (props) {
 
@@ -47,12 +48,45 @@ function HighlightProductFrame (props) {
 
 function HighlightProduct (props) {
     let attribute = null;
+    const detailStore = [];
+
+    if (props.detail === true) {
+      detailStore.push(<>
+        <div className="ram-memory">
+        <span>RAM {props.product.ram}</span>
+        <span>{props.product.internalMemory}</span>
+      </div>
+      <div className='product-info-detail'>
+        <p>Screen {props.product.screen}</p>
+        <p>Processor {props.product.cpu}</p>
+        <p>Rear camera {props.product.rearCamera}</p>
+        <p>Front camera {props.product.frontCamera}</p>
+        <p>{props.product.pin} battery</p>
+      </div>
+      </>);
+    }
+
     if (props.type === 1) {
       attribute = {height: '290px'};
     }
 
     if (props.detail === true) {
       attribute = {height: '500px'}
+    }
+
+    if (props.type === 'tv') {
+      attribute = {height: '300px'}
+    }
+    
+    if (props.type === 'laptop') {
+      attribute = {height: '440px'};
+      detailStore.push(<div className='product-info-detail'>
+      <p>Screen {props.product.screen}</p>
+      <p>Processor {props.product.processor}</p>
+      <p>Storage {props.product.storage}</p>
+      <p>RAM {props.product.ram}</p>
+      <p>{props.product.pin} battery</p>
+    </div>);
     }
 
     let formatUrl = useFormatUrl(props.product.name);
@@ -79,21 +113,7 @@ function HighlightProduct (props) {
         </div>
 
         {
-          props.detail === true ? 
-          <>
-            <div className="ram-memory">
-            <span>RAM {props.product.ram}</span>
-            <span>{props.product.internalMemory}</span>
-          </div>
-          <div className='product-info-detail'>
-            <p>Screen {props.product.screen}</p>
-            <p>Processor {props.product.cpu}</p>
-            <p>Rear camera {props.product.rearCamera}</p>
-            <p>Front camera {props.product.frontCamera}</p>
-            <p>{props.product.pin} battery</p>
-          </div>
-          </> :
-          ''
+          detailStore
         }
       </Link>
     );
@@ -166,11 +186,11 @@ function HomeL () {
         <div className='clear-fix'></div>
 
         <HContentBar title="The top smartphones rated" category='smartphone' />
-        <HighlightProductFrame products={phone} category='smartphone' baseUrl='smartphone' />
+        { !phone ? <Loader /> : <HighlightProductFrame products={phone} category='smartphone' baseUrl='smartphone' />}
         <HContentBar title="The top laptop rated" category='laptop' />
-        <HighlightProductFrame products={laptop} type={1} category='laptop' baseUrl='laptop' />
+        { !laptop ? <Loader /> : <HighlightProductFrame products={laptop} type={1} category='laptop' baseUrl='laptop' />}
         <HContentBar title="The top tablet rated" category='tablet' />
-        <HighlightProductFrame products={tablet} category='tablet' baseUrl='tablet' />
+        { !tablet ? <Loader /> : <HighlightProductFrame products={tablet} category='tablet' baseUrl='tablet' />}
       </Route>
 
       <Route>
@@ -197,11 +217,11 @@ function HomeM () {
         <div className='clear-fix'></div>
 
         <HContentBar title="The top smartphones rated" category='smartphone' />
-        <HighlightProductFrame products={phone} category='smartphone' baseUrl='smartphone' />
+        { !phone ? <Loader /> : <HighlightProductFrame products={phone} category='smartphone' baseUrl='smartphone' />}
         <HContentBar title="The top laptop rated" category='laptop' />
-        <HighlightProductFrame products={laptop} type={1} category='laptop' baseUrl='laptop' />
+        { !laptop ? <Loader /> : <HighlightProductFrame products={laptop} type={1} category='laptop' baseUrl='laptop' />}
         <HContentBar title="The top tablet rated" category='tablet' />
-        <HighlightProductFrame products={tablet} category='tablet' baseUrl='tablet' />
+        { !tablet ? <Loader /> : <HighlightProductFrame products={tablet} category='tablet' baseUrl='tablet' />}
       </Route>
 
       <Route>
@@ -212,7 +232,7 @@ function HomeM () {
 }
 
 function Home () {
-  const isTabletOrMobile = useMediaQuery({ maxWidth: 1224 });
+  const isTabletOrMobile = useMediaQuery({ maxWidth: 840 });
 
   if (isTabletOrMobile) {
     return <HomeM />;

@@ -11,137 +11,36 @@ import usePr from '../Hooks/usePr';
 import usePrL from '../Hooks/usePrL';
 import {useMediaQuery} from 'react-responsive';
 import useQuery from '../Hooks/useQuery';
-import NoDataIMG from '../images/nodata2.png';
+import CustomBar from './Custombar';
+import FilterPrices from './FilterPrices';
+import BrandBar from './BrandBar';
+import Loader from './Loader';
+import NoDataFound from './NoDataFound';
 
-class BrandBox extends React.Component {
-  
-  render () {
-    const type = this.props.type.toLowerCase();
-    return (
-      <Link to={`/brand/${this.props.name}?of=${type}`} id={`brand${this.props.id}`} className="brand-box">
-        <img src={this.props.img} />
-      </Link>
-    );
-  }
-}
+const prices = [
+  {key:'0' ,price: "Under $100", type: 'under', value: [100]},
+  {key:'1' ,price: "$100 - $200", type: 'limit', value: [100, 200]},
+  {key:'2' ,price: "$200 - $500", type: 'limit', value: [200, 500]},
+  {key:'3' ,price: "$500 - $1000", type: 'limit', value: [500, 1000]},
+  {key:'4' ,price: "Over $1000", type: 'over', value: [1000]}
+];
 
-class BrandBar extends React.Component {
-  render () {
-    const category = this.props.categoryDefault;
-    const brandData = [];
-    let i = 0;
-    
-    this.props.brands.forEach((brand, index) => {
-      brand.brandOf.map((brandOf)=>{
-        if (brandOf === category) {
-          i = i + 1;
-        }
-      });
-    });
-
-    this.props.brands.forEach((brand, index) => {
-      brand.brandOf.map((brandOf)=>{
-        if (brandOf === category) {
-          brandData.push(
-            <BrandBox
-              total={i}
-              img={brand.image} type={category} name={brand.name} key={index}
-              selectBrand={this.props.selectBrand}
-              id={index}
-            />
-          );
-        }
-      });
-    });
-    return (
-      <div className="brand-bar">
-        {brandData}
-      </div>
-    );
-  }
-}
-
-class FilterPrices extends React.Component {
-  render () {
-    const priceRow = [];
-    this.props.prices.forEach((data, index)=>{
-      
-      priceRow.push(
-        // <NavLink key={index} to={`${this.props.type}/price=${data.value[0]}`} className="filter-prices-a" activeStyle={{fontWeight: "bold", color: "#0099ff"}}>{data.price}</NavLink>
-        <span 
-          key={index} id={`filter-prices-a-active${index}`}
-          className="filter-prices-a" onClick={()=>{this.props.setPrConditional(data, this.props.totalP)}}
-        >{data.price}</span>
-      );
-    });
-    return (
-      <div className="filter-prices">
-        <p>Price: </p>
-        {priceRow}
-      </div>
-    );
-  }
-}
-
-class CustomBar extends React.Component {
-
-  toggle () {
-    const sortList = document.getElementById('sort-list');
-    if (sortList.style.display !== "block") {
-      sortList.style.display = "block";
-    } else {
-      sortList.style.display = "none";
-    }
-  }
-
-  render () {
-    return (
-      <div id="custom-bar" onClick={()=>{this.toggle()}}>
-        <span>Sort by</span>
-        <div id="sort-list">
-          <p id='sort-item-1' className="sort-item" onClick={this.props.lowToHigh}>Price low to high</p>
-          <p id='sort-item-2' className="sort-item" onClick={this.props.highToLow}>Price high to low</p>
-        </div>
-      </div>
-    );
-  }
-}
-
-function NoDataFound (props) {
-  if (props.unlock === true) {
-    return (
-      <div className="no-data-found">
-        <img src={NoDataIMG} />
-      </div>
-    );
-  }
-
-  return null;
-  
-}
-
-function SmartphoneL (props) {
+function Smartphone (props) {
   let {path, url} = useRouteMatch();
   let query = useQuery();
-  
-  const [
-    allPr, pr, handleSeeMore, limit, currentPr, getCurrentPr,
-    setPrConditional, unlock, cloneAllPr, lowToHigh, highToLow, selectBrand
-  ] = usePrL('smartphone');
+
+  const [allPr, cloneAllPr, pr, limit, prOfBrand, isLoading, handleSeeMore, dispatch, handleSetPOB] = usePr('smartphone');
   
   return (
     <Switch>
       <Route exact path={path}>
-        <BrandBar selectBrand={selectBrand} brands={props.brands} categoryDefault="Smartphone" />
-        <FilterPrices
-          prices={props.price} type='smartphone' setPrConditional={setPrConditional}
-          totalP={4}
-        />
-        <CustomBar lowToHigh={lowToHigh} highToLow={highToLow} />
-        <NoDataFound unlock={unlock} />
-        <HighlightProductFrame detail={true} products={pr} hide='hide' baseUrl='smartphone' />
+        <BrandBar handleSetPOB={handleSetPOB} brands={props.brands} categoryDefault="Smartphone" handleBrand={(obj)=>{dispatch({type: 'BRAND', brand: obj, cloneState: cloneAllPr})}} />
+        <FilterPrices prices={prices} handlePrice={(price)=>{dispatch({type: 'PRICE', price: price, prOfBrand: prOfBrand, cloneState: cloneAllPr})}}/>
+        <CustomBar lowToHigh={()=>{dispatch({type: 'LOWTOHIGH'})}} highToLow={()=>{dispatch({type: 'HIGHTOLOW'})}} />
+        {isLoading === true ? <Loader /> : <HighlightProductFrame detail={true} products={pr} hide='hide' baseUrl='smartphone' />}
+        {allPr.length === 0 && isLoading === false ? <NoDataFound /> : null}
         {
-          cloneAllPr.length > limit ?
+          allPr.length > limit ?
           <SeeMore handleSeeMore={handleSeeMore} /> :
           null
         }
@@ -152,55 +51,6 @@ function SmartphoneL (props) {
       </Route> 
     </Switch>
   );
-}
-
-function SmartphoneM (props) {
-  let {path, url} = useRouteMatch();
-  let query = useQuery();
-  
-  const [
-    allPr, pr, handleSeeMore, limit, currentPr, getCurrentPr,
-    setPrConditional, unlock, cloneAllPr, lowToHigh, highToLow, selectBrand
-  ] = usePr('smartphone');
-
-  return (
-    <Switch>
-      <Route exact path={path}>
-        <BrandBar selectBrand={selectBrand} brands={props.brands} categoryDefault="Smartphone" />
-        <FilterPrices
-          prices={props.price} type='smartphone'
-          setPrConditional={setPrConditional}
-          totalP={4}
-        />
-        <CustomBar lowToHigh={lowToHigh} highToLow={highToLow} />
-        <NoDataFound unlock={unlock} />
-        <HighlightProductFrame
-          detail={true} products={pr} hide='hide' baseUrl='smartphone'
-        />
-        {
-          cloneAllPr.length > limit ?
-          <SeeMore handleSeeMore={handleSeeMore} /> :
-          null
-        }
-      </Route>
-
-      <Route path={`${path}/:prId`}>
-        <DetailPr 
-          baseUrl='smartphone' baseName='Smartphone' prid={query.get("prid")} 
-        />
-      </Route> 
-    </Switch>
-  );
-}
-
-function Smartphone (props) {
-  const isTabletOrMobile = useMediaQuery({ maxWidth: 1224 });
-
-  if (isTabletOrMobile) {
-    return <SmartphoneM brands={props.brands} price={props.price} />;
-  }
-
-  return <SmartphoneL brands={props.brands} price={props.price} />;
 }
 
 export {Smartphone, BrandBar, FilterPrices, CustomBar, NoDataFound};

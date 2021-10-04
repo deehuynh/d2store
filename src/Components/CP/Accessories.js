@@ -25,7 +25,11 @@ function Accessories () {
       description: '',
       image: '',
       type: '',
-      public: true
+      public: true,
+      box: '',
+      image1: '',
+      image2: '',
+      image3: '',
     };
 
     const [type, setType] = useState(accessoryType);
@@ -399,6 +403,8 @@ function ProductAddonForm (props) {
                         />
                     </Form.Group>
 
+                    
+
                     <Form.Group>
                         <Form.Label>
                             Thumbnail
@@ -417,6 +423,40 @@ function ProductAddonForm (props) {
                         placeholder='Description...'
                         onChange={(e)=>{props.handleChangeAcsr(e)}}
                       />
+                    </Form.Group>
+
+                    <Form.Group>
+                      <Form.Control as='textarea' name='box' value={acsr.box} placeholder="what's in the box?" onChange={(e) => {props.handleChangeAcsr(e)}} />
+                    </Form.Group>
+
+                    <Form.Group>
+                      <Form.Label>Detailed pictures of the product</Form.Label>
+                    </Form.Group>
+
+                    <Form.Group>
+                      <Form.Control type='text' name='image1' placeholder='Enter link image...' value={acsr.image1} onChange={(e) => {props.handleChangeAcsr(e)}} />
+                    </Form.Group>
+
+                    <Form.Group>
+                      <Form.Control type='text' name='image2' placeholder='Enter link image...' value={acsr.image2} onChange={(e) => {props.handleChangeAcsr(e)}} />
+                    </Form.Group>
+
+                    <Form.Group>
+                      <Form.Control type='text' name='image3' placeholder='Enter link image...' value={acsr.image3} onChange={(e) => {props.handleChangeAcsr(e)}} />
+                    </Form.Group>
+
+                    <Form.Group>
+                      <div className="pr-pictures">
+                        <img src={acsr.image1} alt="Not found image link" />
+                      </div>
+
+                      <div className="pr-pictures">
+                        <img src={acsr.image2} alt="Not found image link" />
+                      </div>
+
+                      <div className="pr-pictures">
+                        <img src={acsr.image3} alt="Not found image link" />
+                      </div>
                     </Form.Group>
 
                     <Form.Group>

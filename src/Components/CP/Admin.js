@@ -9,7 +9,7 @@ import {Laptop} from "./Laptop";
 import Help from './Help';
 import TV from './TV';
 import Accessories from './Accessories';
-import {BrowserRouter as Router, Route, Switch, NavLink, Link} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Switch, NavLink, Link, Redirect} from 'react-router-dom';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
@@ -19,6 +19,8 @@ import FormControl from 'react-bootstrap/FormControl';
 import {Container, Breadcrumb, Col, Row, InputGroup} from 'react-bootstrap';
 import firebaseDb from '../../firebase';
 import '../../Style/cp.css';
+import PageNotFound from '../404';
+import Login from './Login';
 
 const baseUrl = 'http://localhost:3000/admin';
 
@@ -63,6 +65,10 @@ class Admin extends React.Component {
                         
                             <Switch>
 
+                                <Route path='/login'>
+                                    <Login />
+                                </Route>
+
                                 <Route exact path="/">
                                     <Dashboard />
                                 </Route>
@@ -100,6 +106,10 @@ class Admin extends React.Component {
                                 <Route path="/help">
                                     
                                     <Help />
+                                </Route>
+
+                                <Route path="*">
+                                    <PageNotFound />
                                 </Route>
 
                             </Switch>

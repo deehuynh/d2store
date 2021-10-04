@@ -156,13 +156,9 @@
     width: 9.09%;
     height: 130px;
     border: 1px solid rgba(0, 0, 0, 0.065);
-    border-right: none;
     text-align: center;
     box-sizing: border-box;
-}
-
-.accessory:last-child {
-    border-right: 1px solid rgba(0, 0, 0, 0.065);
+    margin: 0 0 -1px -1px;
 }
 
 .accessory div {
@@ -188,6 +184,7 @@
 
 .accessory:hover {
     background-color: rgba(30, 144, 255, 0.1);
+    cursor: pointer;
 }
 
 .see-more-btn {
@@ -212,7 +209,7 @@
 
 .ram-memory {
     box-sizing: border-box;
-    padding: 10px 15px;
+    padding: 0 15px 10px 15px;
 }
 
 .ram-memory span {
@@ -297,6 +294,7 @@
     padding: 5px 0;
     font-size: 24px;
     font-weight: 700;
+    word-break: break-word;
 }
 
 .aside-content .a-c-price {
@@ -392,11 +390,22 @@
     font-weight: 400;
 }
 
+.specs-description {
+    line-height: 30px;
+    margin: 10px 0;
+    font-size: 18px;
+    color: #404040;
+}
+
 .specs span strong {
     display: inline-block;
     width: 40%;
     color: #404040;
     font-weight: 400;
+}
+
+.specs span div {
+    display: inline-block;
 }
 
 .reviews {
@@ -587,7 +596,20 @@
     box-sizing: border-box;
 }
 
-@media only screen and (max-width: 425px) {
+@media only screen and (max-width: 1199px) {
+    .brand-bar .brand-box {
+        width: 16.7%;
+    }
+}
+
+@media only screen and (max-width: 1100px) {
+    .accessory {
+        width: 11%;
+        height: 135px;
+    }
+}
+
+@media only screen and (max-width: 840px) {
 
     #sort-list {
         box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.205);
@@ -614,7 +636,7 @@
     }
     
     .brand-bar .brand-box {
-        width: 30%;
+        width: 20%;
         height: 35px;
         margin: 0 -1px 0 0;
     }
@@ -743,5 +765,50 @@
 
     .help-content {
         padding: 20px 15px;
+    }
+
+    .accessory {
+        width: 15%;
+        height: 135px;
+    }
+
+    .accessory div {
+        height: 45.2%;
+    }
+
+    .accessory span {
+        padding: 12px 0;
+        font-size: 11px;
+    }
+
+    .accessory-list {
+        margin-top: 20px;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .specs span div {
+        width: 55%;
+        padding-left: 3%;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .accessory {
+        width: 24.3%;
+        height: 115px;
+    }
+
+
+    .brand-bar .brand-box {
+        width: 30%;
+        height: 35px;
+        margin: 0 -1px 0 0;
+    }
+}
+
+@media only screen and (max-width: 359px) {
+    .brand-bar .brand-box {
+        width: 35%;
     }
 }

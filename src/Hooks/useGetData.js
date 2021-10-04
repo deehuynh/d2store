@@ -4,7 +4,7 @@ import fireDb from '../firebase';
 export default function useGetDataKey (primaryKey) {
     const [state, setState] = useState([]);
     useEffect (()=>{
-        fireDb.ref(primaryKey).once('value', getData);
+        fireDb.ref(primaryKey).orderByChild('public').equalTo(true).once('value', getData);
     }, []);
 
     function getData (snapshot) {
