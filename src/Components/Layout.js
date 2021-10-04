@@ -121,7 +121,7 @@ class Layout extends React.Component {
         <div className="clear-fix"></div>
         
       </Footer>
-      <div className="footer-copyright">&copy; 2021 - D2shop.com. Upwork profile: <a target='blank' href='https://www.upwork.com/freelancers/~0115b91248f865410e'>Dong Nhan</a></div>
+      <div className="footer-copyright">&copy; 2021 - D2store.com. Github: <a target='blank' href='https://github.com/deehuynh'>DeeHuynh</a></div>
       </div>
     );
   }
