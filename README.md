@@ -12,7 +12,7 @@ Interaction: using as a perfect website (entire function is already)
 
 [ The website is really interesting. Let's discover it ]
 
-## About technicality
+## About functions
 
 There are two site: client site and admin site.
 
@@ -35,7 +35,19 @@ Core Functions at admin site
 - Public or private products (brands)
 - Create article (help and policy posts)
 
+## Technology
+
+- Reactjs (the first I used class component then I used functional component and hooks)
+- Firebase (realtime database, API)
+- Some basic algorithm (handle sort, search, pagination, etc.)
+- Localstorage (cart function)
+- HTML5, CSS3
+- React Bootstrap (for admin site only)
+- Fontawesome
+
 ## Design
+
+![img](https://i.imgur.com/qvzdHNN.png)
 
 There are not design file. 
 I was designing while was building website.
