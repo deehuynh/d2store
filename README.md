@@ -49,6 +49,8 @@ Core Functions at admin site
 
 ![img](https://i.imgur.com/qvzdHNN.png)
 
+![img](https://i.imgur.com/A13Zgu7.png)
+
 There are not design file. 
 I was designing while was building website.
 Design based on thegioididong.com
