@@ -12,6 +12,5 @@ const firebaseConfig = {
   };
 
 var fireDb = firebase.initializeApp(firebaseConfig);
-const analytics = firebase.analytics();
 
 export default fireDb.database();
