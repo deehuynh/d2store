@@ -26,6 +26,7 @@
     "react-slideshow-image": "^3.4.3",
     "react-spinners": "^0.10.6",
     "react-star-rating-component": "^1.4.1",
+    "sass": "^1.42.1",
     "web-vitals": "^0.2.4"
   },
   "scripts": {
