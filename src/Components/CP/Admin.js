@@ -20,9 +20,7 @@ import {Container, Breadcrumb, Col, Row, InputGroup} from 'react-bootstrap';
 import firebaseDb from '../../firebase';
 import '../../Style/cp.css';
 import PageNotFound from '../404';
-import Login from './Login';
 
-const baseUrl = 'http://localhost:3000/admin';
 
 class Admin extends React.Component {
 
@@ -64,10 +62,6 @@ class Admin extends React.Component {
                     <Container fluid style={{marginTop: '20px'}}>
                         
                             <Switch>
-
-                                <Route path='/login'>
-                                    <Login />
-                                </Route>
 
                                 <Route exact path="/">
                                     <Dashboard />
