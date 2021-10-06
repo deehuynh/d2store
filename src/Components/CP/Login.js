@@ -4,7 +4,8 @@ function Login () {
   return (
     <div className="admin-login">
       <form className="admin-login__form">
-        <Input />
+        <Input placeholder='Username' />
+        <Input placeholder='Password' />
       </form>
     </div>
   )
