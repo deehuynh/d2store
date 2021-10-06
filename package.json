@@ -2,7 +2,6 @@
   "name": "d2shop",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://deehuynh.github.io/d2store/",
   "dependencies": {
     "@ckeditor/ckeditor5-build-classic": "^25.0.0",
     "@ckeditor/ckeditor5-react": "^3.0.1",
@@ -33,9 +32,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [

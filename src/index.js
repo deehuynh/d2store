@@ -17,9 +17,9 @@ ReactDOM.render(
       <ScrollToTop />
       <Switch>
         
-        {/* <Route path='/admin'>
+        <Route path='/admin'>
           <Admin />
-        </Route> */}
+        </Route>
 
         <Route path='/'>
           <StateProvider initState={initState} reducer={reducer}>
