@@ -1,5 +1,4 @@
 import firebase from "firebase";
-import {getAnalytics} from "firebase/analytics";
 
 const firebaseConfig = {
     apiKey: "AIzaSyCaDBpg8plpGlFlSl1ke7gH_lJKZ4VRjfs",
@@ -13,6 +12,6 @@ const firebaseConfig = {
   };
 
 var fireDb = firebase.initializeApp(firebaseConfig);
-var analytics = getAnalytics(fireDb);
+const analytics = firebase.analytics();
 
 export default fireDb.database();
