@@ -7,8 +7,8 @@ function Login () {
         <div className="admin-login__title">
           Login to admin control panel
         </div>
-        <Input placeholder='Username' />
-        <Input placeholder='Password' />
+        <Input placeholder='Username' type='text' />
+        <Input placeholder='Password' type='password' />
 
         <div className="admin-login__button">
           Sign in
@@ -20,7 +20,11 @@ function Login () {
 
 function Input (props) {
   return (
-    <input className="admin-login__input" type="text" defaultValue='' placeholder={props.placeholder} />
+    <input 
+      className="admin-login__input" 
+      type={props.type} defaultValue='' 
+      placeholder={props.placeholder}
+    />
   )
 }
 
