@@ -13,6 +13,6 @@ const firebaseConfig = {
     measurementId: "G-37DR1GJ7DF"
   };
 
-var fireDb = firebase.initializeApp(firebaseConfig);
+  firebase.initializeApp(firebaseConfig);
 
-export default fireDb.analytics();
+  firebase.analytics().logEvent('notification_received');
