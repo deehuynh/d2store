@@ -4,8 +4,15 @@ function Login () {
   return (
     <div className="admin-login">
       <form className="admin-login__form">
+        <div className="admin-login__title">
+          Login to admin control panel
+        </div>
         <Input placeholder='Username' />
         <Input placeholder='Password' />
+
+        <div className="admin-login__button">
+          Sign in
+        </div>
       </form>
     </div>
   )
@@ -13,7 +20,7 @@ function Login () {
 
 function Input (props) {
   return (
-    <input type="text" defaultValue='' placeholder={props.placeholder} />
+    <input className="admin-login__input" type="text" defaultValue='' placeholder={props.placeholder} />
   )
 }
 

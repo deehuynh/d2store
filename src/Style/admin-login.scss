@@ -1,3 +1,43 @@
+@import 'mixin';
+
 .admin-login {
-  background: red;
+  @include frame(400px, auto, center);
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.09);
+  margin: {
+    top: 20vh;
+  };
+
+  &__form {
+    @include flex(column);
+    padding: 50px 20px;
+    text-align: center;
+  }
+
+  &__title {
+    font-size: 18px;
+    color: #0cf;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+  }
+
+  &__input {
+    padding: 12px 20px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(0,0,0,0.09);
+    outline: none;
+    color: #363636;
+  }
+
+  &__button {
+    display: inline-block;
+    padding: 12px 20px;
+    background-color: #0cf;
+    color: white;
+    transition: .2s;
+
+    &:hover {
+      cursor: pointer;
+      background-color: #5cf;
+    }
+  }
 }
