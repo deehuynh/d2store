@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './Style/index.css';
 import './Style/products.css';
 import Admin from './Components/CP/Admin';
+import Login from './Components/CP/Login';
 import Site from './Components/Layout';
 import * as serviceWorker from './serviceWorker';
 import {BrowserRouter as Router, Link, Route, Switch, NavLink} from 'react-router-dom';
@@ -17,6 +18,10 @@ ReactDOM.render(
       <ScrollToTop />
       <Switch>
         
+        <Route path='/login'>
+          <Login />
+        </Route>
+
         <Route path='/admin'>
           <Admin />
         </Route>
