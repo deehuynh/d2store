@@ -1,7 +1,7 @@
 function Login () {
-    return (
-        <h1>Login</h1>
-    );
+  return (
+    <div className="admin-login"></div>
+  )
 }
 
 export default Login;
