@@ -9,7 +9,6 @@ import {BrowserRouter as Router, Link, Route, Switch, NavLink} from 'react-route
 import ScrollToTop from './Components/ScrollToTop';
 import {StateProvider} from './Components/StateProvider';
 import reducer, {initState} from './Components/reducer';
-import './firebase-analytics';
 
 
 ReactDOM.render(
