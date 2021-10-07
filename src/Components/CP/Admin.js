@@ -57,6 +57,7 @@ class Admin extends React.Component {
                                     <NavDropdown.Item as={NavLink} to='/accessories'>Accessories</NavDropdown.Item>
                                     <NavDropdown.Item as={NavLink} to='/help'>Help</NavDropdown.Item>
                                 </NavDropdown>
+                                <Nav.Link as={NavLink} to='/analytics'>Analytics</Nav.Link>
                             </Nav>
                             <Form inline>
                                 <Form.Control type="text" value='' name="search-bar" placeholder="Search..." />
