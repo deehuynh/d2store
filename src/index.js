@@ -11,7 +11,6 @@ import ScrollToTop from './Components/ScrollToTop';
 import {StateProvider} from './Components/StateProvider';
 import reducer, {initState} from './Components/reducer';
 
-
 ReactDOM.render(
   <React.StrictMode>
     <Router>
