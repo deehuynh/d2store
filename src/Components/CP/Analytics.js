@@ -1,7 +1,7 @@
-
+import { Container } from "react-bootstrap"
 
 export default function Analytics () {
   return (
-    <div></div>
+    <Container fluid="true" style={{padding: 0}}></Container>
   )
 }
