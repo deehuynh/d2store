@@ -7,6 +7,7 @@ import Dashboard from './Dashboard';
 import Tablet from "./Tablet";
 import {Laptop} from "./Laptop";
 import Help from './Help';
+import Analytics from './Analytics';
 import TV from './TV';
 import Accessories from './Accessories';
 import {BrowserRouter as Router, Route, Switch, NavLink, Link, Redirect} from 'react-router-dom';
@@ -106,6 +107,10 @@ class Admin extends React.Component {
                                 <Route path="/help">
                                     
                                     <Help />
+                                </Route>
+
+                                <Route path='/analytics'>
+                                  <Analytics />
                                 </Route>
 
                                 <Route path="*">
