@@ -2,4 +2,4 @@
 
 import firebase from "firebase";
 
-export const analytics = firebase.analytics();
+export const getAnalytics = firebase.analytics();

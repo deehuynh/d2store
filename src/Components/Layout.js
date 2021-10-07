@@ -17,6 +17,7 @@ import Brand from './Brand';
 import {Accessories} from './Accessories';
 import {BrowserRouter as Router, Link, Route, Switch, NavLink} from 'react-router-dom';
 import fireDb from '../firebase';
+import {getAnalytics} from '../firebase-analytics';
 
 class Layout extends React.Component {
   constructor (props) {
@@ -40,6 +41,7 @@ class Layout extends React.Component {
   }
 
   componentDidMount () {
+    getAnalytics.logEvent('notification_received');
     fireDb.ref().child('brands').on('value', this.onBrandsHandle);
   }
 
