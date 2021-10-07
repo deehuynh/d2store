@@ -18,11 +18,16 @@ import Button from "react-bootstrap/Button";
 import FormControl from 'react-bootstrap/FormControl';
 import {Container, Breadcrumb, Col, Row, InputGroup} from 'react-bootstrap';
 import firebaseDb from '../../firebase';
+import {getAnalytics} from "../../firebase-analytics";
 import '../../Style/cp.css';
 import PageNotFound from '../404';
 
 
 class Admin extends React.Component {
+
+  componentDidMount () {
+    getAnalytics.logEvent('notification_received');
+  }
 
   render () {
     return (
