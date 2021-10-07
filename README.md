@@ -2,10 +2,6 @@
 
 This project was the first one I built during reactjs research.
 
-## Status
-
-I am updating the admin page. Building the analytics function
-
 ## About the product
 
 Type of website: E-commerce
